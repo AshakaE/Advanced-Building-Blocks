@@ -2,7 +2,6 @@ module Enumerable
   def my_each
     return to_enum(:each) unless block_given?
 
-    # arr = self if instance_of?(Array)
     arr ||= to_a
     arr.length.times { |item| yield(arr[item]) }
     self
