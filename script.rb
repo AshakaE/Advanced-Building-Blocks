@@ -24,10 +24,19 @@ module Enumerable
     my_each { |m| new_arr << m if yield(m) }
     new_arr
   end
+
+  def my_all?
+    condition = true
+    my_each do |item|
+      condition = false if (block_given? && !yield(item)) || (!block_given? && !item)
+    end
+    condition
+  end
 end
 
 # p([1, 2, 3, 4, 5]).my_each { |x| p x }
 # p([3, 4, 6, 9]).my_each_with_index { |item, index| p "we have index #{index} for array #{item}" }
-
+# state = %w[ant bear cat]
+# p state.my_all? { |word| word.length < 3 }
 # friends = %w[Sharon Leo Leila Brian Arun]
 # p friends.my_select { |friend| friend != 'Brian' }
