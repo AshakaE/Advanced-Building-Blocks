@@ -1,17 +1,13 @@
 module Enumerable
-  def to_enumerable
-    return to_enum unless block_given?
-  end
-
   def my_each
-    to_enumerable
+    return to_enum(:each) unless block_given?
 
     arr = self if instance_of?(Array)
     arr.length.times { |item| yield(arr[item]) }
   end
 
   def my_each_with_index
-    to_enumerable
+    return to_enum(:each_with_index) unless block_given?
 
     arr = self if instance_of?(Array)
     arr.length.times { |item| yield(arr[item], item) }
@@ -19,13 +15,15 @@ module Enumerable
 
   def my_select
     new_arr = []
-    to_enumerable
+    return to_enum(:select) unless block_given?
 
     my_each { |m| new_arr << m if yield(m) }
     new_arr
   end
 
   def my_all?
+    return to_enum(:all?) unless block_given?
+
     condition = true
     my_each do |item|
       condition = false if (block_given? && !yield(item)) || (!block_given? && !item)
@@ -34,6 +32,8 @@ module Enumerable
   end
 
   def my_any?
+    return to_enum(:any?) unless block_given?
+
     condition = false
     my_each do |item|
       condition = true if (block_given? && yield(item)) || (!block_given? && item)
