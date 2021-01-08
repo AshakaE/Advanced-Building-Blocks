@@ -44,8 +44,20 @@ module Enumerable
     end
     condition
   end
+
+  def my_count
+    return size unless block_given?
+
+    count = 0
+    my_each do |item|
+      count += 1 if yield(item)
+    end
+    count
+  end
 end
 
+# ary = [1, 2, 4, 2]
+# p ary.my_count{ |x| x%2==0 }
 # p([1, 2, 3, 4, 5]).my_each { |x| p x }
 # p([3, 4, 6, 9]).my_each_with_index { |item, index| p "we have index #{index} for array #{item}" }
 # state = %w[ant bear cat ja]
