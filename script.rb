@@ -24,28 +24,32 @@ module Enumerable
     new_arr
   end
 
-  def my_all?(_arg = nil)
+  def my_all?(arg = nil)
     condition = true
-    my_each do |item|
-      condition = false if _arg (block_given? && !yield(item)) || (!block_given? && !item)
+    if arg
+      my_each { |item| return false unless arg === item } # rubocop:disable Style/CaseEquality
+    elsif block_given?
+      my_each { |item| return false unless yield(item) }
+    else
+      my_each { |item| return false unless item }
     end
     condition
   end
 
-  def my_any?(_arg = nil)
+  def my_any?(arg = nil)
     condition = false
-    my_each do |item|
-      condition = true if _arg (block_given? && yield(item)) || (!block_given? && item)
+    if arg
+      my_each { |item| return true if arg === item } # rubocop:disable Style/CaseEquality
+    elsif block_given?
+      my_each { |item| return true if yield(item) }
+    else
+      my_each { |item| return true if item }
     end
     condition
   end
 
-  def my_none?(_arg = nil)
-    condition = true
-    my_each do |item|
-      condition = false if _arg (block_given? && yield(item)) || (!block_given? && item)
-    end
-    condition
+  def my_none?(arg = nil, &block)
+    !my_any?(arg, &block)
   end
 
   def my_count(value = nil, &block)
@@ -59,8 +63,8 @@ module Enumerable
   end
 
   def my_map(proc = nil)
-    arr = to_a
-    arr.my_each do |item|
+    arr = []
+    my_each do |item|
       arr << if proc
                proc.call(item)
              else
