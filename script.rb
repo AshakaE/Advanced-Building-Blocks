@@ -90,4 +90,4 @@ def multiply_els(array)
   array.my_inject { |quotient, x| quotient * x }
 end
 
-p [3, 4, 6, 9].my_each_with_index { |x, i| p "we have index of #{i} for case #{x}"}
+p[3, 4, 6, 9].my_each_with_index { |x, i| p "we have index of #{i} for case #{x}" }
