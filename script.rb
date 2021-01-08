@@ -76,14 +76,19 @@ module Enumerable
       end
     else
       stack = self[0]
-      my_each_with_index do |i|
-        stack = yield(stack, self[i + 1]) if i < length - 1
+      my_each_with_index do |n, i|
+        stack = yield(stack, self[i + 1]) if (i < length - 1)
       end
     end
     stack
   end
 end
 
+def multiply_els(array)
+  array.my_inject { |quotient, x| quotient * x }
+end
+
+# puts multiply_els([2, 4, 5])
 # ary = [1, 2, 4, 2]
 # p ary.my_inject { |sum, n| sum + n }
 # p ary.my_count{ |x| x%2==0 }
