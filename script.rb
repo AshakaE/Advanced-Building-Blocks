@@ -56,7 +56,7 @@ module Enumerable
     if block_given?
       my_select(&block).size
     elsif !value.nil?
-      my_select { |n| n == input }.size
+      my_select { |n| n == value }.size
     else
       size
     end
