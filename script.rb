@@ -22,8 +22,6 @@ module Enumerable
   end
 
   def my_all?
-    return to_enum(:all?) unless block_given?
-
     condition = true
     my_each do |item|
       condition = false if (block_given? && !yield(item)) || (!block_given? && !item)
@@ -32,11 +30,17 @@ module Enumerable
   end
 
   def my_any?
-    return to_enum(:any?) unless block_given?
-
     condition = false
     my_each do |item|
       condition = true if (block_given? && yield(item)) || (!block_given? && item)
+    end
+    condition
+  end
+
+  def my_none?
+    condition = true
+    my_each do |item|
+      condition = false if (block_given? && yield(item)) || (!block_given? && item)
     end
     condition
   end
