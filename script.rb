@@ -54,6 +54,19 @@ module Enumerable
     end
     count
   end
+
+  def my_map(input)
+    arr = to_a
+    new_map = []
+    arr.my_each do |item|
+      new_map << if block_given?
+                   yield(input.call(item))
+                 else
+                   input.call(item)
+                 end
+    end
+    new_map
+  end
 end
 
 # ary = [1, 2, 4, 2]
