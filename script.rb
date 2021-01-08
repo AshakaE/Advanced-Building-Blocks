@@ -49,9 +49,9 @@ module Enumerable
     condition
   end
 
-  def my_count(value = nil)
+  def my_count(value = nil, &block)
     if block_given?
-      my_select {|n| yield(n)}.size
+      my_select(&block).size
     elsif !value.nil?
       my_select { |n| n == input }.size
     else
@@ -63,10 +63,10 @@ module Enumerable
     arr = to_a
     arr.my_each do |item|
       arr << if proc
-                   proc.call(item)
-                 else
-                   yield(item)
-                 end
+               proc.call(item)
+             else
+               yield(item)
+             end
     end
     arr
   end
@@ -91,5 +91,4 @@ def multiply_els(array)
   array.my_inject { |quotient, x| quotient * x }
 end
 
-ary = [1, 2, 4, 2]
-p (1..10).my_count
+
