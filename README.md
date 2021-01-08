@@ -1,3 +1,6 @@
+- # Advanced-Building-Blocks
+- Basic Enumerables
+
 # Rebuilding some basic enumerable methods in Ruby 
 
 The Enumerable module provides a collection of methods that get "mixed in", or included, with other classes like Array and Hash. The class must provide a method each, which yields successive members of the collection.
