@@ -76,8 +76,8 @@ module Enumerable
       end
     else
       stack = self[0]
-      my_each_with_index do |n, i|
-        stack = yield(stack, self[i + 1]) if (i < length - 1)
+      my_each_with_index do |_n, i|
+        stack = yield(stack, self[i + 1]) if i < length - 1
       end
     end
     stack
