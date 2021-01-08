@@ -17,8 +17,9 @@ module Enumerable
   end
 
   def my_select
-    new_arr = []
     return to_enum(:select) unless block_given?
+
+    new_arr = []
 
     my_each { |m| new_arr << m if yield(m) }
     new_arr
@@ -48,27 +49,26 @@ module Enumerable
     condition
   end
 
-  def my_count
-    return size unless block_given?
-
-    count = 0
-    my_each do |item|
-      count += 1 if yield(item)
+  def my_count(value = nil)
+    if block_given?
+      my_select {|n| yield(n)}.size
+    elsif !value.nil?
+      my_select { |n| n == input }.size
+    else
+      size
     end
-    count
   end
 
-  def my_map(input)
+  def my_map(proc = nil)
     arr = to_a
-    new_map = []
     arr.my_each do |item|
-      new_map << if block_given?
-                   yield(input.call(item))
+      arr << if proc
+                   proc.call(item)
                  else
-                   input.call(item)
+                   yield(item)
                  end
     end
-    new_map
+    arr
   end
 
   def my_inject(prime = nil)
@@ -91,4 +91,5 @@ def multiply_els(array)
   array.my_inject { |quotient, x| quotient * x }
 end
 
-p[3, 4, 6, 9].my_each_with_index { |x, i| p "we have index of #{i} for case #{x}" }
+ary = [1, 2, 4, 2]
+p (1..10).my_count
