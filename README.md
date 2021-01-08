@@ -1,4 +1,4 @@
-<!-- # Rebuilding some basic enumerables in Ruby 
+<!-- # Rebuilding some basic enumerable methods in Ruby 
 
 The `each` method takes an `array` as an `argument` and returns the sorted `array`. 
 Output Example:
