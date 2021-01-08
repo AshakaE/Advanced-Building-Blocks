@@ -67,9 +67,25 @@ module Enumerable
     end
     new_map
   end
+
+  def my_inject(prime = nil)
+    if !prime.nil?
+      stack = prime
+      my_each do |n|
+        stack = yield(stack, n)
+      end
+    else
+      stack = self[0]
+      my_each_with_index do |i|
+        stack = yield(stack, self[i + 1]) if i < length - 1
+      end
+    end
+    stack
+  end
 end
 
 # ary = [1, 2, 4, 2]
+# p ary.my_inject { |sum, n| sum + n }
 # p ary.my_count{ |x| x%2==0 }
 # p([1, 2, 3, 4, 5]).my_each { |x| p x }
 # p([3, 4, 6, 9]).my_each_with_index { |item, index| p "we have index #{index} for array #{item}" }
