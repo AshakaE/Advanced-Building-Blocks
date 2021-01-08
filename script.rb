@@ -87,15 +87,3 @@ end
 def multiply_els(array)
   array.my_inject { |quotient, x| quotient * x }
 end
-
-# puts multiply_els([2, 4, 5])
-# ary = [1, 2, 4, 2]
-# p ary.my_inject { |sum, n| sum + n }
-# p ary.my_count{ |x| x%2==0 }
-# p([1, 2, 3, 4, 5]).my_each { |x| p x }
-# p([3, 4, 6, 9]).my_each_with_index { |item, index| p "we have index #{index} for array #{item}" }
-# state = %w[ant bear cat ja]
-# p state.my_any? { |word| word.length < 3 }
-# p state.my_any?
-# friends = %w[Sharon Leo Leila Brian Arun]
-# p friends.my_select { |friend| friend != 'Brian' }
