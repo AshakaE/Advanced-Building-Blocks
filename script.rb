@@ -25,26 +25,26 @@ module Enumerable
     new_arr
   end
 
-  def my_all?
+  def my_all?(_arg = nil)
     condition = true
     my_each do |item|
-      condition = false if (block_given? && !yield(item)) || (!block_given? && !item)
+      condition = false if _arg (block_given? && !yield(item)) || (!block_given? && !item)
     end
     condition
   end
 
-  def my_any?
+  def my_any?(_arg = nil)
     condition = false
     my_each do |item|
-      condition = true if (block_given? && yield(item)) || (!block_given? && item)
+      condition = true if _arg (block_given? && yield(item)) || (!block_given? && item)
     end
     condition
   end
 
-  def my_none?
+  def my_none?(_arg = nil)
     condition = true
     my_each do |item|
-      condition = false if (block_given? && yield(item)) || (!block_given? && item)
+      condition = false if _arg (block_given? && yield(item)) || (!block_given? && item)
     end
     condition
   end
@@ -71,20 +71,22 @@ module Enumerable
     arr
   end
 
-  def my_inject(prime = nil)
-    if !prime.nil?
-      stack = prime
-      my_each do |n|
-        stack = yield(stack, n)
-      end
-    else
-      stack = self[0]
-      my_each_with_index do |_n, i|
-        stack = yield(stack, self[i + 1]) if i < length - 1
-      end
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  def my_inject(prime = nil, meth = nil)
+    if (prime && meth.nil?) && (prime.is_a?(Symbol) || prime.is_a?(String))
+      meth = prime
+      prime = nil
     end
-    stack
+
+    if !block_given? && meth
+      to_a.my_each { |item| prime = prime ? prime.send(meth, item) : item }
+    else
+      to_a.my_each { |item| prime = prime ? yield(prime, item) : item }
+    end
+    prime
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 
 def multiply_els(array)
