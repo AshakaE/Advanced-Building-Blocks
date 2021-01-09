@@ -63,6 +63,8 @@ module Enumerable
   end
 
   def my_map(proc = nil)
+    return to_enum(:map) unless block_given?
+
     arr = []
     my_each do |item|
       arr << if proc
