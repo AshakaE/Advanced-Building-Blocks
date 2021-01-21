@@ -48,4 +48,50 @@ RSpec.describe Enumerable do
       expect(arr.my_select(&:even?)).to eq([6, 4])
     end
   end
+
+  describe '#my_all?' do
+    it 'should return true' do
+      expect(arr.my_all?(&:odd?)).to be_falsy
+    end
+
+    it 'should return false' do
+      expect(arr.my_all? { |n| n < 10 }).to be_truthy
+    end
+  end
+
+  describe '#my_any?' do
+    it 'should return true' do
+      expect(arr.my_any?(&:odd?)).to be_truthy
+    end
+
+    it 'should return false' do
+      expect(arr.my_any? { |n| n > 10 }).to be_falsy
+    end
+  end
+
+  describe '#my_none?' do
+    it 'should return false' do
+      expect(arr.my_none?(&:odd?)).to be_falsy
+    end
+
+    it 'should return true' do
+      expect(arr.my_none? { |n| n > 10 }).to be_truthy
+    end
+
+    it 'should return false' do
+      expect([true, false, nil].my_none?).to be_falsy
+    end
+
+    it 'should return true' do
+      expect([].my_none?).to be_truthy
+    end
+
+    it 'should return true' do
+      expect(string.my_none?(/g/)).to be_falsy
+    end
+
+    it 'should return false' do
+      expect(string.my_none?(/d/)).to be_falsy
+    end
+  end
 end
