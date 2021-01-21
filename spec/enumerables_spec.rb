@@ -94,4 +94,46 @@ RSpec.describe Enumerable do
       expect(string.my_none?(/d/)).to be_falsy
     end
   end
+
+  describe '#my_count?' do
+    it 'returns the total no of elements in the array' do
+      expect(arr.my_count).to eq(4)
+    end
+
+    it 'returns the total number of odd elements in the array' do
+      expect(arr.my_count(&:odd?)).to eq(2)
+    end
+
+    it 'returns array length when no block is given' do
+      expect(string.my_count).to eq(3)
+    end
+
+    it 'returns the number of items that match the positional argument given' do
+      expect(string.my_count('green')).to eq(1)
+    end
+  end
+
+  describe '#my_map' do
+    it 'returns a modified array resulting from the block operation' do
+      expect(arr.my_map { |n| 2 * n }).to eq([12, 8, 6, 10])
+    end
+
+    it 'returns modified array when given a range with a block' do
+      expect(range.my_map { |n| n + 2 }).to eq([3, 4, 5, 6, 7, 8, 9, 10])
+    end
+
+    it 'returns array of strings when given array of integers' do
+      expect(arr.my_map(&:to_s)).to eq(%w[6 4 3 5])
+    end
+  end
+
+  describe '#my_inject' do
+    it 'returns the product when given a starting value and a block operation' do
+      expect(arr.my_inject(1) { |product, n| product * n }).to eq(360)
+    end
+
+    it 'returns the product when given starting value and a unary operator' do
+      expect(range.my_inject(1, :*)).to eq(40_320)
+    end
+  end
 end
