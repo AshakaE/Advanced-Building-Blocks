@@ -7,7 +7,7 @@ RSpec.describe Enumerable do
   let(:string) { %w[red green factor] }
   let(:block) { proc { |num| num < 4 } }
 
-  describe "#my_each" do
+  describe '#my_each' do
     context 'when no block is given' do
       it { is_expected.to be_truthy }
     end
@@ -23,7 +23,7 @@ RSpec.describe Enumerable do
     it 'prints result to stdout with block given' do
       expect { string.my_each { |i| print i.length } }.to output(/356/).to_stdout
     end
-  end 
+  end
 
   describe '#my_each_with_index' do
     context 'when no block is given' do
