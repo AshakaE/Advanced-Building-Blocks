@@ -38,4 +38,14 @@ RSpec.describe Enumerable do
       expect(arr.my_each_with_index { block }).to eq(arr)
     end
   end
+
+  describe '#my_select' do
+    context 'when no block is given' do
+      it { is_expected.to be_truthy }
+    end
+
+    it 'returns even numbers from array of numbers' do
+      expect(arr.my_select(&:even?)).to eq([6, 4])
+    end
+  end
 end
