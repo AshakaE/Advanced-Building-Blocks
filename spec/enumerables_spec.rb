@@ -20,6 +20,10 @@ RSpec.describe Enumerable do
       expect { arr.my_each { |i| print i + 4 } }.to output(/10879/).to_stdout
     end
 
+    it 'prints result to stdout from block calculation' do
+      expect { arr.my_each { |i| print i - 4 } }.to output(/20-11/).to_stdout
+    end
+
     it 'prints result to stdout with block given' do
       expect { string.my_each { |i| print i.length } }.to output(/356/).to_stdout
     end
@@ -47,6 +51,10 @@ RSpec.describe Enumerable do
     it 'returns even numbers from array of numbers' do
       expect(arr.my_select(&:even?)).to eq([6, 4])
     end
+
+    it 'returns odd numbers from array of numbers' do
+      expect(arr.my_select(&:odd?)).to eq([3, 5])
+    end
   end
 
   describe '#my_all?' do
@@ -54,8 +62,16 @@ RSpec.describe Enumerable do
       expect(arr.my_all?(&:odd?)).to be_falsy
     end
 
+    it 'should return true' do
+      expect(arr.my_all?(&:even?)).to be_falsy
+    end
+
     it 'should return false' do
       expect(arr.my_all? { |n| n < 10 }).to be_truthy
+    end
+
+    it 'should return true' do
+      expect(arr.my_all? { |n| n > 10 }).to be_falsy
     end
   end
 
@@ -64,8 +80,16 @@ RSpec.describe Enumerable do
       expect(arr.my_any?(&:odd?)).to be_truthy
     end
 
+    it 'should return true' do
+      expect(arr.my_any?(&:even?)).to be_truthy
+    end
+
     it 'should return false' do
       expect(arr.my_any? { |n| n > 10 }).to be_falsy
+    end
+
+    it 'should return false' do
+      expect(arr.my_any? { |n| n < 10 }).to be_truthy
     end
   end
 
@@ -74,8 +98,16 @@ RSpec.describe Enumerable do
       expect(arr.my_none?(&:odd?)).to be_falsy
     end
 
+    it 'should return false' do
+      expect(arr.my_none?(&:even?)).to be_falsy
+    end
+
     it 'should return true' do
       expect(arr.my_none? { |n| n > 10 }).to be_truthy
+    end
+
+    it 'should return false' do
+      expect(arr.my_none? { |n| n < 10 }).to be_falsy
     end
 
     it 'should return false' do
@@ -104,6 +136,10 @@ RSpec.describe Enumerable do
       expect(arr.my_count(&:odd?)).to eq(2)
     end
 
+    it 'returns the total number of even elements in the array' do
+      expect(arr.my_count(&:even?)).to eq(2)
+    end
+
     it 'returns array length when no block is given' do
       expect(string.my_count).to eq(3)
     end
@@ -120,6 +156,10 @@ RSpec.describe Enumerable do
 
     it 'returns modified array when given a range with a block' do
       expect(range.my_map { |n| n + 2 }).to eq([3, 4, 5, 6, 7, 8, 9, 10])
+    end
+
+    it 'returns modified array when given a range with a block' do
+      expect(range.my_map { |n| n - 2 }).to eq([-1, 0, 1, 2, 3, 4, 5, 6])
     end
 
     it 'returns array of strings when given array of integers' do
